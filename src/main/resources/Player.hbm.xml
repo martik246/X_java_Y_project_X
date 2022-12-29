@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="models.Player" table="players" schema="public" catalog="Faceit">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+        </id>
+        <property name="nickname">
+            <column name="nickname" sql-type="varchar"/>
+        </property>
+        <property name="kd">
+            <column name="kd" sql-type="double precision" precision="-1"/>
+        </property>
+        <property name="faceitId">
+            <column name="faceit_id" sql-type="varchar"/>
+        </property>
+        <property name="maps">
+            <column name="maps" sql-type="integer" not-null="true"/>
+        </property>
+        <property name="statId">
+            <column name="stat_id" sql-type="integer"/>
+        </property>
+        <many-to-one name="statByStatId" class="models.Stat">
+            <column name="stat_id"/>
+        </many-to-one>
+        <set name="statById" inverse="true">
+            <key>
+                <column name="player_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="models.Stat"/>
+        </set>
+    </class>
+</hibernate-mapping>
